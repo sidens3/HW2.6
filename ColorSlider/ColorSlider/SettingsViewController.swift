@@ -182,6 +182,7 @@ private extension UISlider {
 private extension String {
     static let floatValueFormat = "%0.2f"
     static let textFieldPrefix = "0."
+    static let doneButtonTitle = "Done"
 }
 
 // MARK: - UIView
@@ -195,4 +196,35 @@ private extension UIView {
 // MARK: - CGFloat
 private extension CGFloat {
     static let zero = 0.0
+}
+
+// MARK: - UITextField
+extension UITextField {
+    @IBInspectable var doneAccessory: Bool {
+        get{
+            return self.doneAccessory
+        }
+        set (hasDone) {
+            if hasDone{
+                addDoneButtonOnKeyboard()
+            }
+        }
+    }
+
+    private func addDoneButtonOnKeyboard() {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        doneToolbar.barStyle = .default
+
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: .doneButtonTitle, style: .done, target: self, action: #selector(self.doneButtonAction))
+
+        let items = [flexSpace, doneButton]
+        doneToolbar.items = items
+
+        self.inputAccessoryView = doneToolbar
+    }
+
+    @objc private func doneButtonAction() {
+        self.resignFirstResponder()
+    }
 }

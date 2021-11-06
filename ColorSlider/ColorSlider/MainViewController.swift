@@ -21,6 +21,7 @@ class MainViewController: UIViewController {
         if segue.identifier == settingsSegueIdentifier {
             guard let settingsViewController = segue.destination as? SettingsViewController else { return }
             settingsViewController.delegate = self
+            settingsViewController.currentColor = backgroundView.backgroundColor
         }
     }
 

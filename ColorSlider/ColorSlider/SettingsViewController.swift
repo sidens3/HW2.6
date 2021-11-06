@@ -13,21 +13,22 @@ private enum Constants {
 }
 
 class SettingsViewController: UIViewController {
-    @IBOutlet weak var colorView: UIView!
+    @IBOutlet private weak var colorView: UIView!
     
-    @IBOutlet weak var redColorSaturationLabel: UILabel!
-    @IBOutlet weak var redColorSaturationSlider: UISlider!
-    @IBOutlet weak var redColorUITextField: UITextField!
+    @IBOutlet private weak var redColorSaturationLabel: UILabel!
+    @IBOutlet private weak var redColorSaturationSlider: UISlider!
+    @IBOutlet private weak var redColorUITextField: UITextField!
     
-    @IBOutlet weak var greenColorSaturationLabel: UILabel!
-    @IBOutlet weak var greenColorSaturationSlider: UISlider!
-    @IBOutlet weak var greenColorUITextField: UITextField!
+    @IBOutlet private weak var greenColorSaturationLabel: UILabel!
+    @IBOutlet private weak var greenColorSaturationSlider: UISlider!
+    @IBOutlet private weak var greenColorUITextField: UITextField!
     
-    @IBOutlet weak var blueColorSaturationLabel: UILabel!
-    @IBOutlet weak var blueColorSaturationSlider: UISlider!
-    @IBOutlet weak var blueColorUITextField: UITextField!
+    @IBOutlet private weak var blueColorSaturationLabel: UILabel!
+    @IBOutlet private weak var blueColorSaturationSlider: UISlider!
+    @IBOutlet private weak var blueColorUITextField: UITextField!
     
     var delegate: MainViewControllerDelegate?
+    var currentColor: UIColor?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,20 +38,20 @@ class SettingsViewController: UIViewController {
     }
     
     // MARK: - IBAction
-    @IBAction func redSliderChanged(_ sender: UISlider) {
+    @IBAction private func redSliderChanged(_ sender: UISlider) {
         updateUI()
     }
     
-    @IBAction func greenSliderChanged(_ sender: UISlider) {
+    @IBAction private func greenSliderChanged(_ sender: UISlider) {
         updateUI()
     }
     
-    @IBAction func blueSliderChanged(_ sender: UISlider) {
+    @IBAction private func blueSliderChanged(_ sender: UISlider) {
         updateUI()
     }
     
-    @IBAction func doneButtonPressed() {
-        delegate?.setNewBackgroundColor(for: getCurrentCommonSliderColor())
+    @IBAction private func doneButtonPressed() {
+        delegate?.setNewBackgroundColor(for: currentColor ?? .clear)
         dismiss(animated: true, completion: nil)
     }
     
@@ -121,7 +122,8 @@ class SettingsViewController: UIViewController {
     }
     
     private func updateViewColor() {
-        colorView.backgroundColor = getCurrentCommonSliderColor()
+        currentColor = getCurrentCommonSliderColor()
+        colorView.backgroundColor = currentColor
     }
 }
 
@@ -139,7 +141,7 @@ private extension UISlider {
     func defaultConfigure() {
         self.minimumValue = 0.00
         self.maximumValue = 1.00
-        self.value = 0.55
+        self.value = 1.00
     }
 }
 

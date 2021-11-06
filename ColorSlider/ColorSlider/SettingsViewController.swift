@@ -1,5 +1,5 @@
 //
-//  ColorSliderViewController.swift
+//  SettingsViewController.swift
 //  ColorSlider
 //
 //  Created by Михаил Зиновьев on 22.10.2021.
@@ -12,7 +12,7 @@ private enum Constants {
     static let defaultViewRadius: CGFloat = 8
 }
 
-class ColorSliderViewController: UIViewController {
+class SettingsViewController: UIViewController {
     @IBOutlet weak var currentColorView: UIView!
     
     @IBOutlet weak var redColorSaturationLabel: UILabel!
@@ -45,6 +45,9 @@ class ColorSliderViewController: UIViewController {
         setCurrentColorViewColor()
         redColorSaturationLabel.text = String(format: Constants.sliderValueFormat,
                                               redColorSaturationSlider.value)
+    }
+    @IBAction func doneButtonPressed() {
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func greenSliderChanged(_ sender: UISlider) {

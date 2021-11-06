@@ -30,10 +30,12 @@ class SettingsViewController: UIViewController {
     var delegate: MainViewControllerDelegate?
     var currentColor: UIColor?
     
+    private var textFieldOldValue: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupDefaultSettings()
+        configure()
         updateUI()
     }
     
@@ -56,7 +58,7 @@ class SettingsViewController: UIViewController {
     }
     
     //MARK: - Private Methods
-    private func setupDefaultSettings() {
+    private func configure() {
         colorView.makeRound(with: Constants.defaultViewRadius)
         
         redColorSaturationSlider.defaultConfigure()
@@ -130,8 +132,31 @@ class SettingsViewController: UIViewController {
 // MARK: - UITextFieldDelegate
 extension SettingsViewController: UITextFieldDelegate {
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textFieldOldValue = textField.text
+        textField.text = .textFieldPrefix
+    }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        //todo выставлять значения соответствующего слайдера и лейбла в установленное значение
+        guard textField.text != .textFieldPrefix else {
+            textField.text = textFieldOldValue
+            return
+        }
+        guard let floatTextFieldValue = (textField.text as NSString?)?.floatValue else { return }
+        guard let formatedTextFieldValue = Float(String(format: .floatValueFormat, floatTextFieldValue)) else { return }
+        
+        switch textField {
+        case redColorUITextField:
+            redColorSaturationSlider.value = formatedTextFieldValue
+        case greenColorUITextField:
+            greenColorSaturationSlider.value = formatedTextFieldValue
+        case blueColorUITextField:
+            blueColorSaturationSlider.value = formatedTextFieldValue
+        default:
+            break
+        }
+        
+        updateUI()
     }
 }
 
@@ -145,6 +170,12 @@ private extension UISlider {
     }
 }
 
+// MARK: - String
+private extension String {
+    static let floatValueFormat = "%0.2f"
+    static let textFieldPrefix = "0."
+}
+
 // MARK: - UIView
 private extension UIView {
     
@@ -153,6 +184,7 @@ private extension UIView {
     }
 }
 
+// MARK: - CGFloat
 private extension CGFloat {
     static let zero = 0.0
 }

@@ -68,6 +68,10 @@ class SettingsViewController: UIViewController {
         redColorUITextField.delegate = self
         greenColorUITextField.delegate = self
         blueColorUITextField.delegate = self
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+
     }
     
     private func updateUI() {
@@ -126,6 +130,10 @@ class SettingsViewController: UIViewController {
     private func updateViewColor() {
         currentColor = getCurrentCommonSliderColor()
         colorView.backgroundColor = currentColor
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
